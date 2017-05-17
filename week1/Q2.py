@@ -23,7 +23,7 @@ class LinkedList:
 
 def get_kth_to_last(L, k):
 	L_len = L.length
-	if k > L_len:
+	if k >= L_len:
 		return False
 
 	el = L.first

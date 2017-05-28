@@ -12,6 +12,8 @@ class PermutationTest(unittest.TestCase):
 
 	def testCornerCases(self):
 		self.assertTrue(Q1.if_permutation('', ''))
+		self.assertTrue(Q1.if_permutation('abb', 'bba'))
+		self.assertFalse(Q1.if_permutation('abb', 'bbba'))
 
 
 	def testErrorCases(self):

@@ -1,15 +1,14 @@
+# element of a linked list
+# consists a value of itself and a link to the next element
 class Node:
-	"""element of a linked list
-	consists a value of itself and a link to the next element"""
 	def __init__(self, value = None, next = None):
 		self.value = value
 		self.next = next
 
-
+# data structure, consists of nodes
+# clear -- resets a linked list
+# add -- adds new node, adds a link to the new element to the last one (if present)
 class LinkedList:
-	"""data structure, consists of nodes
-	clear -- resets a linked list
-	add -- adds new node, adds a link to the new element to the last one (if present)"""
 	def __init__(self):
 		self.clear()
 

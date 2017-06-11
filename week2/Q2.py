@@ -2,7 +2,7 @@ from btree import BinaryTree
 from Q1 import get_ancestors
 
 
-def find_common_ancestor(ancestors1, ancestors2):
+def _find_common_ancestor(ancestors1, ancestors2):
 	'''Finds lowest common ancestors given two lists of ancestors.
 
 	Args:
@@ -44,4 +44,4 @@ def get_common_ancestor(tree, key1, key2):
 		ancestors2 = [key2] + ancestors2
 	else:
 		ancestors2 = [key2]
-	return find_common_ancestor(ancestors1, ancestors2)
+	return _find_common_ancestor(ancestors1, ancestors2)

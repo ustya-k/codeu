@@ -11,7 +11,9 @@ def get_ancestors(tree, key):
 	Returns:
 		list, ancestors of the key, beginning from the closest
 		None, if the key is not present in the tree'''
-	if tree.root != key:
+	if tree.root == key:
+		return []
+	else:
 		ancestors = None
 
 		if tree.left == None and tree.right == None:
@@ -28,5 +30,3 @@ def get_ancestors(tree, key):
 			if ancestors != None:
 				ancestors.append(tree.root)
 			return ancestors
-	else:
-		return []

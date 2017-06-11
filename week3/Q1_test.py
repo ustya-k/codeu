@@ -28,6 +28,14 @@ class WordSearchTest(unittest.TestCase):
 		self.field = Q1.get_graph(lines, columns, rows)
 		self.assertEqual({'A'}, Q1.get_words_in_table(self.dictionary, self.field))
 
+	def testEmptyField(self):
+		self.dictionary = {'A', 'B'}
+		columns = 0
+		rows = 0
+		lines = ''
+		self.field = Q1.get_graph(lines, columns, rows)
+		self.assertEqual(set(), Q1.get_words_in_table(self.dictionary, self.field))
+
  
 if __name__ == '__main__':
 	unittest.main()

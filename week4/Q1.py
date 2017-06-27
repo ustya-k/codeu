@@ -96,7 +96,7 @@ def main():
 				row[i] = False
 		tiles_map.append(row)
 
-	islands_number = count_islands(tiles_map, len(tiles_map), len(tiles_map[0]))
+	islands_number = count_islands(tiles_map, n, m)
 	print('%d islands found' % islands_number)
 
 

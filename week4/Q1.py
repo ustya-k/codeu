@@ -83,30 +83,19 @@ def count_islands(tiles_map, n_rows, n_columns):
 
 
 def main():
-	# n = int(input('Input number of rows: '))
-	# m = int(input('Input number of columns: '))
-	# print('Input tiles:')
-	# tiles_map = []
-	# for i in range(n):
-	# 	row = input().split()
-	# 	for i, tile in enumerate(row):
-	# 		if tile == 'True':
-	# 			row[i] = True
-	# 		elif tile == 'False':
-	# 			row[i] = False
-	# 	tiles_map.append(row)
-
-	with open('test.in', 'r', encoding='utf-8') as f:
-		text = f.read().split('\n')
+	n = int(input('Input number of rows: '))
+	m = int(input('Input number of columns: '))
+	print('Input tiles:')
 	tiles_map = []
-	for srow in text:
-		row = srow.split() 
+	for i in range(n):
+		row = input().split()
 		for i, tile in enumerate(row):
 			if tile == 'True':
 				row[i] = True
 			elif tile == 'False':
 				row[i] = False
 		tiles_map.append(row)
+
 	islands_number = count_islands(tiles_map, len(tiles_map), len(tiles_map[0]))
 	print('%d islands found' % islands_number)
 

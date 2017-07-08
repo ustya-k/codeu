@@ -1,56 +1,69 @@
-def get_graph(values, n, m):
+def get_graph(grid, n, m):
 	'''
 	Builds a graph.
 
 	Args:
-		values: str, elements of the table, all rows in one line
+		grid: str, elements of the grid,
+				all elements in one line: 
+				elements of the first row from left to right, then elements of the second row, etc.
 		n: int, number of columns
 		m: int, number of rows
 
 	Returns:
-		dict, includes two elements with keys 'nodes' (stores a dict where key is number of a node and value is node's value) and 'vertices' (stores a dict where key is a number of a node and value is a set of numbers of nodes to which it is connected)
+		dict, includes two elements with keys 
+		'nodes' (stores a dict where key is number of a node and value is node's value) 
+		and 'vertices' (stores a dict where key is a number of a node 
+						and value is a set of numbers of nodes to which it is connected)
+
 	'''
-	nodes = {i: values[i] for i in range(n*m)}
+	nodes = {i: grid[i] for i in range(n*m)}
 	vertices = []
 	for i in range(n*m):
+		# if there is only one cell
 		if n == 1 and m == 1:
 			vertices.append({})
 			break
+		# if there is only one line or one row
 		elif n == 1 or m == 1:
+			# first cell
 			if i == 0:
 				vertices.append({i + 1})
+			# last cell
 			elif (i == m - 1 and n == 1) or (i == n - 1 and m == 1):
 				vertices.append({i - 1})
+			# middle cells
 			else:
 				vertices.append({i - 1, i + 1})
 		else:
-			#up left corner
-			if i == 0:
-				vertices.append({i + 1, i + n, i + n + 1})
-			#up right corner
-			elif i == n - 1:
-				vertices.append({i - 1, i + n, i + n - 1})
-			#down right corner
-			elif i == n*m - 1:
-				vertices.append({i - 1, i - n, i - n - 1})
-			#down left corner
-			elif i == n*(m - 1): 
-				vertices.append({i + 1, i - n, i - n + 1})
-			#down sight
-			elif i > n*(m - 1):
-				vertices.append({i - 1, i + 1, i - n, i - n - 1, i - n + 1})
-			#up sight
-			elif i < n:
-				vertices.append({i - 1, i + 1, i + n, i + n - 1, i + n + 1})
-			#left sight
-			elif i % n == 0:
-				vertices.append({i + 1, i - n, i + n, i - n + 1, i + n + 1})
-			#right sight
-			elif (i + 1) % n == 0:
-				vertices.append({i - 1, i - n, i + n, i - n - 1, i + n - 1})
-			#center
-			else:
-				vertices.append({i - 1, i + 1, i - n, i + n, i - n - 1, i - n + 1, i + n - 1, i + n + 1})
+			neighbours = set()
+			row = i // n
+			column = i - n * row
+			# above left cell
+			if row - 1 >= 0 and (i - n - 1) // n == row - 1:
+				neighbours.add(i - n - 1)
+			# above cell
+			if row - 1 >= 0:
+				neighbours.add(i - n) 
+			# above right cell
+			if row - 1 >= 0 and (i - n + 1) // n == row - 1:
+				neighbours.add(i - n + 1) 
+			# left cell
+			if (i - 1) // n == row:
+				neighbours.add(i - 1)
+			# right cell
+			if (i + 1) // n == row:
+				neighbours.add(i + 1)
+			# below left cell
+			if row + 1 < m and (i + n - 1) // n == row + 1:
+				neighbours.add(i + n - 1)
+			# below cell
+			if row + 1 < m:
+				neighbours.add(i + n) 
+			# below right cell
+			if row + 1 < m and (i + n + 1) // n == row + 1:
+				neighbours.add(i + n + 1) 
+
+			vertices.append(neighbours)
 
 	return {'nodes': nodes, 'vertices': vertices}
 
@@ -67,7 +80,7 @@ def _get_prefixes_list(dictionary):
 	'''
 	prefixes = set()
 	for word in dictionary:
-		for i, letter in enumerate(word):
+		for i in range(len(word)):
 			prefixes.add(word[:i + 1])
 	return prefixes
 
@@ -83,10 +96,7 @@ def _isWord(line, dictionary):
 	Returns:
 		boolean
 	'''
-	if line in dictionary:
-		return True
-	else:
-		return False
+	return line in dictionary
 
 
 def _isPrefix(line, prefixes):
@@ -100,10 +110,7 @@ def _isPrefix(line, prefixes):
 	Returns:
 		boolean
 	'''
-	if line in prefixes:
-		return True
-	else:
-		return False
+	return line in prefixes
 
 
 def _walk_table(line, node, table, dictionary, prefixes, visited_nodes):
@@ -125,10 +132,10 @@ def _walk_table(line, node, table, dictionary, prefixes, visited_nodes):
 	if _isPrefix(line, prefixes):
 		if _isWord(line, dictionary):
 			words.add(line)
-		for el in table['vertices'][node]:
-			if el not in visited_nodes:
-				new_line = line + table['nodes'][el]
-				words.update(_walk_table(new_line, el, table, dictionary, prefixes, visited_nodes | {el}))
+		for letter in table['vertices'][node]:
+			if letter not in visited_nodes:
+				new_line = line + table['nodes'][letter]
+				words.update(_walk_table(new_line, letter, table, dictionary, prefixes, visited_nodes | {letter}))
 	return words
 
 
@@ -156,9 +163,9 @@ def main():
 	m = int(input('Input number of rows: '))
 	print('Input table row by row:')
 	inp = input()
-	values = ''
+	grid = ''
 	while inp:
-		values += inp
+		grid += inp
 		inp = input()
 	print('Input dictionary word by word:')
 	inp = input()
@@ -166,7 +173,7 @@ def main():
 	while inp:
 		dictionary.add(inp)
 		inp = input()
-	table = get_graph(values, n, m)
+	table = get_graph(grid, n, m)
 	words = get_words_in_table(dictionary, table)
 	print('Words found in table:')
 	for word in words:

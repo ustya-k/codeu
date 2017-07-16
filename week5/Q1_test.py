@@ -6,7 +6,7 @@ class AlphabetTest(unittest.TestCase):
 
 	def testBaseCase(self):
 		dictionary = ['ART', 'RAT', 'CAR', 'CAT']
-		self.assertEqual(['A', 'R', 'T', 'C'], Q1.get_alphabet(dictionary))
+		self.assertIn(Q1.get_alphabet(dictionary), [['A', 'R', 'T', 'C'], ['A', 'R', 'C', 'T']])
 
 
 	def testEmptyCase(self):

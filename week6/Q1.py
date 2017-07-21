@@ -1,6 +1,6 @@
 class Move:
 	'''
-	Object which stores pairs of positions from and to which a car is moved.
+	Class which stores pairs of positions from and to which a car is moved.
 
 	Fields:
 		_from: int, position from which element is moved
